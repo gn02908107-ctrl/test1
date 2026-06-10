@@ -7,7 +7,7 @@ from folium.plugins import AntPath
 import numpy as np
 
 # 設置網頁標題與寬度版面
-st.set_page_config(page_title="三大機場客運市場儀表板", layout="wide")
+st.set_page_config(page_title="三大機場客運儀表板", layout="wide")
 
 # 1. 讀取資料
 @st.cache_data
@@ -96,7 +96,7 @@ if df is not None:
 
     # 地圖標題
     if selected_airline != "無":
-        st.markdown(f"### 🗺️ 【{selected_airline}】專屬動態航線流動網絡")
+        st.markdown(f"### 🗺️ 【{selected_airline}】動態航線流動網絡")
     else:
         st.markdown("### 🗺️ 選定樞紐之航線流動網絡對比 (完整航網模式)")
     
@@ -152,7 +152,7 @@ if df is not None:
 
     # 各機場主力航空公司運力份額占比
     st.markdown("---")
-    st.markdown("### 🏢 各機場主力航空公司運力份額占比")
+    st.markdown("### 🏢 各機場主力航空公司占比")
     
     airline_share = df_filtered.groupby(['出發機場顯示', '航空公司']).size().reset_index(name='配置班次')
     
