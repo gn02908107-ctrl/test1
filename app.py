@@ -119,8 +119,7 @@ if df is not None:
         '峴港': [16.0439, 108.1994], '馬尼拉': [14.5086, 121.0194]
     }
     
-    # 禁用滾輪和雙指縮放，避免手勢衝突
-    m = folium.Map(location=geo_dict[selected_airports[0]], zoom_start=4, tiles='CartoDB dark_matter', zoom_control=False, scrollWheelZoom=False, dragging=True)
+    m = folium.Map(location=geo_dict[selected_airports[0]], zoom_start=4, tiles='CartoDB dark_matter')
     airport_colors = {'TPE': '#00FFCC', 'HKG': '#FF3366', 'HND': '#FFFF33'}
 
     for ap in selected_airports:
@@ -147,7 +146,6 @@ if df is not None:
             AntPath(locations=arc_path, color=airport_colors[origin], pulse_color='#FFFFFF', weight=2.5, opacity=0.8, delay=1200).add_to(m)
             folium.CircleMarker(location=geo_dict[dest], radius=3.5, color='#FFFFFF', fill=True, fill_color=airport_colors[origin], fill_opacity=0.8, popup=dest).add_to(m)
 
-    # 💡 終極修正：在這裡加入一個動態變化的 key！
     # 只要選取的機場組合或航空公司一換，key 就會徹底改變，逼迫 Streamlit 銷毀快取並畫出正確新地圖。
     map_key = f"map_render_{'_'.join(selected_airports)}_{selected_airline}"
     st_folium(m, width=1400, height=450, returned_objects=[], key=map_key)
@@ -197,7 +195,7 @@ if df is not None:
 
     with model_col2:
         if selected_airline != "無":
-            st.markdown(f"### 🔍 旗艦特寫：【{selected_airline}】機型結構")
+            st.markdown(f"### 🔍 【{selected_airline}】機型結構")
             df_airline_specific = df_filtered[df_filtered['航空公司'].str.contains(selected_airline, na=False)]
             
             if not df_airline_specific.empty:
@@ -218,7 +216,7 @@ if df is not None:
                 st.warning(f"暫無 {selected_airline} 的詳細機型數據。")
         else:
             st.markdown("### 🔍 旗艦特寫：航空公司機型結構")
-            st.info("💡 請在左側側邊欄選擇特定的「航空公司」，即可在此解鎖該航空的機型比例細節特寫。")
+            st.info("💡 請在左側側邊欄選擇特定的「航空公司」，即可在此解鎖該航空的機型比例細節。")
 
     # ==========================================
     # 第二組左右並排區塊
@@ -267,7 +265,7 @@ if df is not None:
     st.markdown("---")
     
     # 全幅熱門航線排行
-    st.markdown("### 🏆 各機場核心航空公司之黃金熱門航線排行 (各機場 Top 5 動態巡航)")
+    st.markdown("### 🏆 各機場核心航空公司之黃金熱門航線排行 (各機場 Top 5 )")
     route_counts = df_filtered.groupby(['出發機場', '出發機場顯示', '航空公司', '航點']).size().reset_index(name='次數')
     
     top_routes_list = []
