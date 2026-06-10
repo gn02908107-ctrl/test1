@@ -119,7 +119,8 @@ if df is not None:
         '峴港': [16.0439, 108.1994], '馬尼拉': [14.5086, 121.0194]
     }
     
-    m = folium.Map(location=geo_dict[selected_airports[0]], zoom_start=4, tiles='CartoDB dark_matter')
+    # 禁用滾輪和雙指縮放，避免手勢衝突
+    m = folium.Map(location=geo_dict[selected_airports[0]], zoom_start=4, tiles='CartoDB dark_matter', zoom_control=False, scrollWheelZoom=False, dragging=True)
     airport_colors = {'TPE': '#00FFCC', 'HKG': '#FF3366', 'HND': '#FFFF33'}
 
     for ap in selected_airports:
